@@ -28,8 +28,8 @@ The SME accepts the best offer with a single click. No additional paperwork. Fun
 ## Tech stack
 
 - **Next.js 15** (App Router, TypeScript)
-- **Tailwind CSS** dark design system
-- **Recharts** animated area chart with confidence band
+- **Tailwind CSS** dark design system — brand teal `#20cbb8` on navy `#0a192c`
+- **Custom SVG chart** — hand-rolled 90-day forecast with animated draw, confidence band, and gap shading (no charting dependency)
 - **Lucide React** iconography
 
 No backend. All data is simulated in `src/lib/mockData.ts` using a deterministic cash-flow model based on a Dutch bakery SME ("De Gouden Korst BV").
@@ -43,10 +43,11 @@ src/
 ├── app/
 │   ├── layout.tsx            # Root layout, metadata
 │   ├── page.tsx              # Screen state machine
-│   └── globals.css
+│   └── globals.css           # Brand tokens + animations
 ├── components/
 │   ├── ConnectScreen.tsx     # Step 1: PSD2 + accounting simulation
-│   ├── DashboardScreen.tsx   # Step 2: Forecast chart + gap detection
+│   ├── DashboardScreen.tsx   # Step 2: Forecast + gap detection
+│   ├── CashFlowChart.tsx     # Custom SVG forecast chart
 │   └── MarketplaceScreen.tsx # Step 3: Ranked lender offers
 └── lib/
     └── mockData.ts           # SME profile, forecast generator, lender offers
@@ -93,17 +94,41 @@ This MVP was built using **Claude Code** as the primary coding agent.
 
 ---
 
+## Forecasting model (planned)
+
+The forecasting engine is the core of Treasure's conceptual innovation. **In this MVP the forecast is driven by a deterministic, representative dataset** (`src/lib/mockData.ts`) so the full connect → forecast → finance workflow can be demonstrated end-to-end. The model itself is the next build phase, and the architecture is designed so it drops in behind the same data layer — the UI and financing flow do not change when the real model replaces the mock.
+
+**Intended approach:** a gradient-boosted regression model with seasonal decomposition, projecting daily cash position 90 days ahead with confidence intervals that narrow as data accumulates.
+
+**Architecture — a hybrid, not one model or many:**
+- A **global base model** trained across the whole customer base learns general SME cash-flow structure (payroll cycles, VAT quarters, seasonality). This is also the data moat: every SME added improves predictions for everyone.
+- A **per-SME personalisation layer** tunes to each business's own patterns.
+- **Industry is a model input**, with sector-level priors so a brand-new customer gets sensible forecasts on day one (solving the cold-start problem) before it has much of its own history.
+
+**Data cadence:** because the horizon is 90 days, **daily refresh is sufficient** — real-time data would not materially change a quarter-ahead projection. This is why the MVP relies on the accounting feed rather than requiring direct PSD2 connectivity.
+
+**Timeline:** building a production-grade v1 pipeline is realistically a few months of data-science work (part of the pre-seed scope). Training on a given SME is fast once the pipeline exists; the real constraint is data accumulation, hence the "baseline immediately, sharper within weeks" behaviour.
+
+---
+
+## Integration strategy
+
+For the launch market (Netherlands / Benelux), the anchor integration is **Exact Online**, the regional market leader. The Dutch accounting market is fragmented across ~14 tools, so rather than build each integration separately, the production design uses a **unified accounting API aggregator** (e.g. Chift, Apideck, Maesn) — integrate once, connect to Exact, AFAS, Visma/Yuki, Moneybird, SnelStart, Twinfield and more. This directly mitigates the "partnership concentration" risk in the business plan and lets a small team cover the fragmented market.
+
+Integration uses each platform's **OAuth 2.0 + REST API**: the SME authorises read access on the provider's own consent screen (no credentials shared with Treasure), after which invoices, payables, and reconciled bank transactions are pulled. Because the accounting platform already ingests bank-feed data, a single accounting connection covers both invoices and bank transactions for the MVP — **direct PSD2 / AISP connectivity is a phase-2 enhancement** for real-time data and for SMEs whose accounting software doesn't capture all accounts.
+
+---
+
 ## Scaling prerequisites
 
 To move from MVP demo to production:
 
-1. AISP licence from De Nederlandsche Bank
-2. PSD2 aggregator (Salt Edge, Nordigen/GoCardless, Tink)
-3. Accounting API integrations (Exact Online, Sage, QuickBooks)
-4. ML forecasting model trained on real transaction history
-5. Lender API contracts for real-time offer generation
-6. Authentication (NextAuth or Clerk)
-7. Database (Postgres/Supabase)
+1. Unified accounting API integration (Exact Online first, then AFAS, Visma, Moneybird via aggregator)
+2. ML forecasting model trained on real transaction history (see *Forecasting model* above)
+3. Lender API contracts for real-time offer generation
+4. Authentication (NextAuth or Clerk)
+5. Database (Postgres/Supabase)
+6. PSD2 aggregator + AISP licence from De Nederlandsche Bank (phase 2 — direct bank connectivity)
 
 ---
 

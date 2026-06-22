@@ -12,7 +12,7 @@ The app simulates the three-stage user journey: connect → forecast → financi
 ```
 src/
 ├── app/           # Next.js App Router (layout, page, globals.css)
-├── components/    # One file per screen: ConnectScreen, DashboardScreen, MarketplaceScreen
+├── components/    # Screens + CashFlowChart (custom SVG, no charting library)
 └── lib/
     └── mockData.ts  # All mock SME data, forecast generation, lender offers
 ```
@@ -43,7 +43,7 @@ src/
 - Do not introduce a backend or API routes — this is a frontend-only MVP demo.
 - Do not add authentication — the connect flow is simulated.
 - Do not use localStorage or sessionStorage.
-- Do not change the dark color scheme (#0a0f1e base, #111827 cards, #10b981 accent).
+- Do not change the brand palette (#0a192c navy base, #0f2236 cards, #20cbb8 teal accent).
 
 ## Running the project
 
