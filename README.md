@@ -9,9 +9,15 @@
 
 ## What it does
 
-Treasure connects an SME's bank account (via PSD2 open banking) and cloud accounting software to produce a continuously updated **90-day cash flow forecast**. When the forecast detects a future liquidity gap, the platform automatically pre-qualifies the SME and runs an instant auction across lender partners — delivering ranked, binding financing offers in under a minute.
+Treasure connects to the SME's **cloud accounting software** — which already holds their reconciled bank-feed data — to produce a continuously updated **90-day cash flow (liquidity) forecast**. When the forecast detects a future liquidity gap, the platform automatically pre-qualifies the SME and runs an instant auction across lender partners — delivering ranked, binding financing offers in under a minute.
 
 The SME accepts the best offer with a single click. No additional paperwork. Funds arrive next business day.
+
+> **On PSD2:** the accounting connection is the MVP's single data source, because the
+> accounting platform already ingests the SME's bank transactions. Direct **PSD2 / AISP
+> open-banking connectivity is a phase-2 layer** (real-time data + accounts the accounting
+> software doesn't capture). The demo's "Connect bank" step illustrates that phase-2 layer.
+> See *Integration strategy* below.
 
 ---
 
@@ -58,8 +64,8 @@ src/
 ## How to run
 
 ```bash
-git clone https://github.com/your-repo/treasure-mvp
-cd treasure-mvp
+git clone https://github.com/sxnflow3r/fintech_mvp
+cd fintech_mvp
 npm install
 npm run dev
 ```
