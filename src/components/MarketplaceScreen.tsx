@@ -121,7 +121,7 @@ export default function MarketplaceScreen({ onBack, onAccept }: MarketplaceScree
         </div>
 
         <p className="text-center text-slate-600 text-xs mt-8">
-          Treasure earns a commission from lenders on accepted offers — never from you. You always see the all-in cost.
+          Treasure earns a commission from lenders on accepted offers, never from you. You always see the all-in cost.
         </p>
       </div>
     </div>

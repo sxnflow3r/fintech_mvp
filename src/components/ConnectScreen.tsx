@@ -43,7 +43,7 @@ export default function ConnectScreen({ onComplete }: ConnectScreenProps) {
           <h1 className="text-white text-xl font-display">Connect your accounts</h1>
         </div>
         <p className="text-slate-400 text-sm mb-8 leading-relaxed">
-          About 5 minutes, no manual data entry. Connect your accounting software once — it already holds your
+          About 5 minutes, no manual data entry. Connect your accounting software once. It already holds your
           reconciled bank transactions, so that&apos;s all we need to start forecasting.
         </p>
 

@@ -102,7 +102,7 @@ export default function DashboardScreen({ onGapDetected, financedOffer }: Dashbo
         {/* State banner: financing active / gap detected / all clear */}
         {financedOffer ? (
           <Banner tone="good" icon={<ShieldCheck size={18} style={{ color: "var(--teal)" }} />}
-            title={`Financing active — ${fmt(financedOffer.amount)} from ${financedOffer.lender}`}
+            title={`Financing active: ${fmt(financedOffer.amount)} from ${financedOffer.lender}`}
             body={`The gap on ${gap.breachDay?.date ?? "the forecast"} is covered. Repayments of ${fmt(financedOffer.monthlyPayment)}/month over ${financedOffer.term} are already in the projection above.`} />
         ) : hasGap ? (
           <div className="rounded-xl p-5 flex items-start gap-4 animate-in"
@@ -126,7 +126,7 @@ export default function DashboardScreen({ onGapDetected, financedOffer }: Dashbo
         ) : (
           <Banner tone="good" icon={<CheckCircle2 size={18} style={{ color: "var(--teal)" }} />}
             title="No liquidity gap in the next 90 days"
-            body="The forecast stays above zero across the whole horizon, including the 80% confidence band. Nothing to action — we’ll alert you the moment that changes." />
+            body="The forecast stays above zero across the whole horizon, including the 80% confidence band. Nothing to action right now. We’ll alert you the moment that changes." />
         )}
 
         {/* Driver breakdown */}
