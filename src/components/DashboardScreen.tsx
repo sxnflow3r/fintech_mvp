@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { AlertTriangle, TrendingUp, ArrowRight, Wallet, Calendar, Activity, Brain } from "lucide-react";
-import { FORECAST_DATA, FINANCED_DATA, SME_PROFILE, GAP_DAY } from "@/lib/mockData";
+import { FORECAST_DATA, FINANCED_DATA, SME_PROFILE, GAP_DAY, AVG_MONTHLY_REVENUE } from "@/lib/mockData";
 import CashFlowChart from "@/components/CashFlowChart";
 
 interface DashboardScreenProps {
@@ -51,8 +51,8 @@ export default function DashboardScreen({ onGapDetected }: DashboardScreenProps)
 
         {/* KPI row */}
         <div className="grid grid-cols-3 gap-4 mb-6">
-          <KpiCard icon={<Wallet size={15} />} label="Current balance" value={fmt(SME_PROFILE.currentBalance)} sub="ING Business · live" />
-          <KpiCard icon={<TrendingUp size={15} />} label="Avg. monthly revenue" value="€ 34,800" sub="trailing 3 months" />
+          <KpiCard icon={<Wallet size={15} />} label="Current balance" value={fmt(SME_PROFILE.currentBalance)} sub={`via ${SME_PROFILE.accountingConnected} · synced daily`} />
+          <KpiCard icon={<TrendingUp size={15} />} label="Avg. monthly revenue" value={fmt(AVG_MONTHLY_REVENUE)} sub="trailing 3 months" />
           <KpiCard icon={<Calendar size={15} />} label="Next liquidity gap" value={GAP_DAY ? GAP_DAY.date : "None"} sub={GAP_DAY ? `${fmt(GAP_DAY.balance)} projected` : "all clear"} alert={!!GAP_DAY} />
         </div>
 
@@ -64,7 +64,7 @@ export default function DashboardScreen({ onGapDetected }: DashboardScreenProps)
                 <Brain size={16} style={{ color: "var(--teal)" }} />
                 <h2 className="font-display text-base">90-day cash flow forecast</h2>
               </div>
-              <p className="text-slate-400 text-xs mt-1 ml-6">Gradient-boosted model · confidence band narrows as data accumulates</p>
+              <p className="text-slate-400 text-xs mt-1 ml-6">Gradient-boosted model · 80% interval widens with horizon, sharpens as data accumulates</p>
             </div>
             <div className="flex items-center gap-4 text-xs text-slate-400">
               <span className="flex items-center gap-1.5"><span className="w-3 h-0.5 rounded inline-block" style={{ background: "var(--teal)" }} />Forecast</span>

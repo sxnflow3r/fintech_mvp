@@ -22,13 +22,15 @@ export default function CashFlowChart({ data, financedData, width = 900, height 
   const innerH = height - padT - padB;
 
   const { minV, maxV } = useMemo(() => {
-    const sets = showFinanced && financedData ? [...data, ...financedData] : data;
+    // Always scale to BOTH datasets so the axis is fixed across the financing
+    // toggle — the before/after comparison stays honest (same Y-axis).
+    const sets = financedData ? [...data, ...financedData] : data;
     const vals = sets.flatMap((d) => [d.lower, d.upper, d.balance]);
     const lo = Math.min(...vals, 0);
     const hi = Math.max(...vals, 0);
     const pad = (hi - lo) * 0.08;
     return { minV: lo - pad, maxV: hi + pad };
-  }, [data, financedData, showFinanced]);
+  }, [data, financedData]);
 
   const x = (i: number) => padL + (i / (data.length - 1)) * innerW;
   const y = (v: number) => padT + (1 - (v - minV) / (maxV - minV)) * innerH;

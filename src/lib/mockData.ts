@@ -58,43 +58,55 @@ export type ForecastPoint = {
   label?: string;
 };
 
+// Base cash-flow events for the 90-day window (day index -> euro delta).
+// Module-scoped so derived figures (e.g. average monthly revenue) come from the
+// same single source of truth that drives the chart — the UI can't contradict it.
+const STARTING_BALANCE = SME_PROFILE.currentBalance;
+
+const BASE_EVENTS: Record<number, number> = {
+  3: -4800,   // Supplier invoice (flour, butter)
+  7: 5400,    // Weekly revenue
+  10: -3200,  // Staff wages
+  13: -1800,  // Utilities
+  14: 5200,   // Weekly revenue
+  17: -4600,  // Supplier invoice
+  21: 5000,   // Weekly revenue
+  24: -3200,  // Staff wages
+  28: 4200,   // Weekly revenue (quiet week)
+  29: -2400,  // Ingredient restock
+  30: -3200,  // Staff wages
+  31: -18000, // EMERGENCY oven replacement — triggers the liquidity gap
+  33: -1800,  // Utilities
+  35: 5400,   // Weekly revenue
+  38: -1200,  // Misc
+  42: 6800,   // Weekly revenue (balance recovers above zero)
+  45: -3200,  // Staff wages
+  49: 5400,   // Weekly revenue
+  56: 5600,   // Weekly revenue
+  57: -3200,  // Staff wages
+  63: 5800,   // Weekly revenue
+  65: -4500,  // Supplier invoice
+  70: 6000,   // Weekly revenue (Christmas build-up)
+  71: -3200,  // Staff wages
+  77: 6400,   // Christmas season
+  84: 4600,
+  85: -3200,  // Staff wages
+  90: 3400,
+};
+
+// Average monthly revenue, derived from the positive (revenue) events above and
+// divided across the ~3-month window. Keeping it computed means the KPI shown on
+// the dashboard always matches the transactions behind the forecast.
+export const AVG_MONTHLY_REVENUE = Math.round(
+  Object.values(BASE_EVENTS).filter((v) => v > 0).reduce((a, b) => a + b, 0) / 3
+);
+
 function generateForecast(extraEvents: Record<number, number> = {}): ForecastPoint[] {
   const days: ForecastPoint[] = [];
-  let balance = 14200;
-
-  const baseEvents: Record<number, number> = {
-    3: -4800,   // Supplier invoice (flour, butter)
-    7: 5400,    // Weekly revenue
-    10: -3200,  // Staff wages
-    13: -1800,  // Utilities
-    14: 5200,   // Weekly revenue
-    17: -4600,  // Supplier invoice
-    21: 5000,   // Weekly revenue
-    24: -3200,  // Staff wages
-    28: 4200,   // Weekly revenue (quiet week)
-    29: -2400,  // Ingredient restock
-    30: -3200,  // Staff wages
-    31: -18000, // EMERGENCY oven replacement — triggers the liquidity gap
-    33: -1800,  // Utilities
-    35: 5400,   // Weekly revenue
-    38: -1200,  // Misc
-    42: 6800,   // Weekly revenue (balance recovers above zero)
-    45: -3200,  // Staff wages
-    49: 5400,   // Weekly revenue
-    56: 5600,   // Weekly revenue
-    57: -3200,  // Staff wages
-    63: 5800,   // Weekly revenue
-    65: -4500,  // Supplier invoice
-    70: 6000,   // Weekly revenue (Christmas build-up)
-    71: -3200,  // Staff wages
-    77: 6400,   // Christmas season
-    84: 4600,
-    85: -3200,  // Staff wages
-    90: 3400,
-  };
+  let balance = STARTING_BALANCE;
 
   // Merge financing events (disbursement + repayments) on top of the base pattern
-  const events: Record<number, number> = { ...baseEvents };
+  const events: Record<number, number> = { ...BASE_EVENTS };
   for (const [day, amount] of Object.entries(extraEvents)) {
     events[Number(day)] = (events[Number(day)] || 0) + amount;
   }
@@ -105,13 +117,15 @@ function generateForecast(extraEvents: Record<number, number> = {}): ForecastPoi
     if (events[d]) balance += events[d];
     const date = new Date(today);
     date.setDate(today.getDate() + d);
-    const spread = Math.min(d * 180, 3200);
+    // 80% forecast interval: fans out with the horizon (further ahead = less
+    // certain) and is skewed to the downside, as cash-flow risk usually is.
+    const spread = 500 + d * 75;
     days.push({
       day: d,
       date: date.toLocaleDateString("en-NL", { month: "short", day: "numeric" }),
       balance: Math.round(balance),
-      lower: Math.round(balance - spread),
-      upper: Math.round(balance + spread),
+      lower: Math.round(balance - spread * 1.15),
+      upper: Math.round(balance + spread * 0.85),
       label: d === 31 ? "Gap" : undefined,
     });
   }
