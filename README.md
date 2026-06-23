@@ -100,11 +100,15 @@ This MVP was built using **Claude Code** as the primary coding agent.
 
 ---
 
-## Forecasting model (planned)
+## Forecasting model
 
-The forecasting engine is the core of Treasure's conceptual innovation. **In this MVP the forecast is driven by a deterministic, representative dataset** (`src/lib/mockData.ts`) so the full connect → forecast → finance workflow can be demonstrated end-to-end. The model itself is the next build phase, and the architecture is designed so it drops in behind the same data layer — the UI and financing flow do not change when the real model replaces the mock.
+The forecasting engine is the core of Treasure's conceptual innovation, and it is **real code**, not a mock. The dashboard chart renders the output of a Python model (`forecast/forecast_model.py` → `src/data/forecast.json`) — see [`forecast/README.md`](forecast/README.md) for the full write-up.
 
-**Intended approach:** a gradient-boosted regression model with seasonal decomposition, projecting daily cash position 90 days ahead with confidence intervals that narrow as data accumulates.
+**Approach:** a realistic treasury split — *known* scheduled items (payroll, invoices, the one-off oven) are deterministic from the accounting feed, while the *uncertain* weekly revenue is modelled with **gradient-boosted quantile regression** (`scikit-learn`, `loss="quantile"` at α=0.1/0.5/0.9). That is how the confidence intervals come out of gradient boosting. The cumulative-balance band is then produced by **Monte-Carlo** so it fans out with the horizon. Two scenarios are emitted (gap month + healthy month) and the UI can switch between them.
+
+**Why GB + its limit:** great for the calendar-driven, seasonal structure of SME cash flow; weak under regime change (a lost client), which is why one-offs are handled deterministically and the band is wide. Production evolves this into a global base model + per-SME personalisation.
+
+**Regenerate it:** `py forecast/forecast_model.py` (deps in `forecast/requirements.txt`).
 
 **Architecture — a hybrid, not one model or many:**
 - A **global base model** trained across the whole customer base learns general SME cash-flow structure (payroll cycles, VAT quarters, seasonality). This is also the data moat: every SME added improves predictions for everyone.

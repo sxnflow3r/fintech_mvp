@@ -1,26 +1,32 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { CheckCircle2, Zap, ArrowLeft, Star, Clock, TrendingDown } from "lucide-react";
-import { LENDER_OFFERS, GAP_DAY } from "@/lib/mockData";
+import { rankOffers, GAP_DAY, FINANCE_AMOUNT_OPTIONS, DEFAULT_FINANCE_AMOUNT, type LenderOffer } from "@/lib/mockData";
 
 interface MarketplaceScreenProps {
   onBack: () => void;
+  onAccept: (offer: LenderOffer) => void;
 }
 
 const fmt = (n: number) =>
   new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
 
-export default function MarketplaceScreen({ onBack }: MarketplaceScreenProps) {
+export default function MarketplaceScreen({ onBack, onAccept }: MarketplaceScreenProps) {
+  // Real input: the requested amount re-runs the ranking (monthly payment, total
+  // cost of credit, and the badges are all recomputed from the lender economics).
+  const [amount, setAmount] = useState(DEFAULT_FINANCE_AMOUNT);
+  const offers = useMemo(() => rankOffers(amount), [amount]);
   const [selected, setSelected] = useState<number | null>(null);
   const [accepted, setAccepted] = useState(false);
 
-  const handleAccept = (id: number) => {
-    setSelected(id);
+  const handleAccept = (offer: LenderOffer) => {
+    setSelected(offer.id);
+    onAccept(offer);
     setTimeout(() => setAccepted(true), 300);
   };
 
   if (accepted && selected !== null) {
-    const offer = LENDER_OFFERS.find((o) => o.id === selected)!;
+    const offer = offers.find((o) => o.id === selected)!;
     return <SuccessScreen offer={offer} onBack={onBack} />;
   }
 
@@ -35,20 +41,34 @@ export default function MarketplaceScreen({ onBack }: MarketplaceScreenProps) {
       </nav>
 
       <div className="max-w-3xl mx-auto px-6 py-8">
-        <div className="mb-8">
+        <div className="mb-6">
           <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-4"
             style={{ background: "rgba(32,203,184,0.12)", color: "var(--teal)" }}>
             <Zap size={12} />Auction complete · gap on {GAP_DAY?.date}
           </div>
-          <h1 className="font-display text-3xl mb-2">3 offers in 47 seconds</h1>
+          <h1 className="font-display text-3xl mb-2">{offers.length} offers in 47 seconds</h1>
           <p className="text-slate-400 text-sm leading-relaxed max-w-xl">
-            Lenders bid against each other using your live bank and accounting data. All offers are binding.
-            No paperwork, no separate applications. You see the all-in cost.
+            Lenders bid against each other using your live accounting data. All offers are binding.
+            No paperwork, no separate applications. You always see the all-in cost.
           </p>
         </div>
 
+        {/* Amount selector — re-runs the auction/ranking */}
+        <div className="flex items-center gap-3 mb-6 flex-wrap">
+          <span className="text-slate-400 text-xs">How much do you need?</span>
+          <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: "var(--navy-card)", border: "1px solid var(--navy-border)" }}>
+            {FINANCE_AMOUNT_OPTIONS.map((a) => (
+              <button key={a} onClick={() => setAmount(a)}
+                className="px-3 py-1.5 rounded-md text-xs font-semibold transition-all cursor-pointer"
+                style={amount === a ? { background: "var(--teal)", color: "#0a192c" } : { color: "#94a3b8" }}>
+                {fmt(a)}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="space-y-4">
-          {LENDER_OFFERS.map((offer, i) => {
+          {offers.map((offer, i) => {
             const isSel = selected === offer.id;
             return (
               <div key={offer.id} className="rounded-2xl border p-6 transition-all duration-200"
@@ -64,30 +84,31 @@ export default function MarketplaceScreen({ onBack }: MarketplaceScreenProps) {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <span className="font-display text-base">{offer.lender}</span>
-                      {i === 0 && (
+                      {offer.highlight === "Best match" && (
                         <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-semibold"
                           style={{ background: "rgba(32,203,184,0.15)", color: "var(--teal)", border: "1px solid rgba(32,203,184,0.25)" }}>
                           <Star size={10} fill="currentColor" />Best match
                         </span>
                       )}
-                      {offer.highlight && i !== 0 && (
+                      {offer.highlight && offer.highlight !== "Best match" && (
                         <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.06)", color: "#cbd5e1" }}>
                           {offer.highlight}
                         </span>
                       )}
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-3">
                       <Stat label="Amount" value={fmt(offer.amount)} />
                       <Stat label="Term" value={offer.term} />
                       <Stat label="APR" value={`${offer.apr}%`} icon={<TrendingDown size={11} style={{ color: "var(--teal)" }} />} />
                       <Stat label="Monthly" value={fmt(offer.monthlyPayment)} />
+                      <Stat label="All-in cost" value={fmt(offer.totalCost)} />
                     </div>
                     <div className="flex items-center gap-1.5 mt-3 text-slate-400 text-xs">
                       <Clock size={11} />Funds in account: {offer.disbursement}
                     </div>
                   </div>
                   <div className="shrink-0 ml-2">
-                    <button onClick={() => handleAccept(offer.id)}
+                    <button onClick={() => handleAccept(offer)}
                       className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer hover:brightness-110 ${i === 0 ? "text-[#0a192c]" : "text-white"}`}
                       style={i === 0 ? { background: "var(--teal)", boxShadow: "0 8px 20px -6px rgba(32,203,184,0.5)" } : { background: "rgba(255,255,255,0.08)" }}>
                       Accept
@@ -116,8 +137,7 @@ function Stat({ label, value, icon }: { label: string; value: string; icon?: Rea
   );
 }
 
-function SuccessScreen({ offer, onBack }: { offer: typeof LENDER_OFFERS[0]; onBack: () => void }) {
-  const money = (n: number) => new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
+function SuccessScreen({ offer, onBack }: { offer: LenderOffer; onBack: () => void }) {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full opacity-20 blur-[120px] pointer-events-none"
@@ -129,15 +149,16 @@ function SuccessScreen({ offer, onBack }: { offer: typeof LENDER_OFFERS[0]; onBa
         </div>
         <h1 className="font-display text-2xl text-white mb-2">Offer accepted</h1>
         <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-          {offer.lender} will transfer <span className="text-white font-semibold">{money(offer.amount)}</span> to your
-          ING Business account by {offer.disbursement.toLowerCase()}. Gap closed before it happened.
+          {offer.lender} will transfer <span className="text-white font-semibold">{fmt(offer.amount)}</span> to your
+          business account by {offer.disbursement.toLowerCase()}. Gap closed before it happened.
         </p>
         <div className="rounded-xl border p-4 text-left text-xs space-y-2 mb-8"
           style={{ background: "var(--navy-card)", borderColor: "var(--navy-border)" }}>
           <Row label="Lender" value={offer.lender} />
-          <Row label="Amount" value={money(offer.amount)} />
+          <Row label="Amount" value={fmt(offer.amount)} />
           <Row label="Term" value={offer.term} />
           <Row label="APR" value={`${offer.apr}%`} />
+          <Row label="All-in cost" value={fmt(offer.totalCost)} />
           <Row label="Reference" value="TRS-2025-004821" mono />
         </div>
         <button onClick={onBack} className="text-slate-400 hover:text-white text-sm transition-colors cursor-pointer flex items-center gap-1.5 mx-auto">

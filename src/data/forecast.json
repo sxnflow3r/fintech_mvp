@@ -1,0 +1,1278 @@
+{
+  "model": "gradient-boosting quantile regression (scikit-learn) + Monte-Carlo bands",
+  "generatedBy": "forecast/forecast_model.py",
+  "horizonDays": 90,
+  "startDate": "2025-11-15",
+  "metrics": {
+    "currentBalance": 14200,
+    "avgMonthlyRevenue": 21664,
+    "gapDate": "Dec 16",
+    "gapBalance": -6877,
+    "troughDate": "Dec 18",
+    "troughBalance": -8677
+  },
+  "points": [
+    {
+      "day": 1,
+      "date": "Nov 16",
+      "balance": 14200,
+      "lower": 14200,
+      "upper": 14200
+    },
+    {
+      "day": 2,
+      "date": "Nov 17",
+      "balance": 14200,
+      "lower": 14200,
+      "upper": 14200
+    },
+    {
+      "day": 3,
+      "date": "Nov 18",
+      "balance": 9400,
+      "lower": 9400,
+      "upper": 9400
+    },
+    {
+      "day": 4,
+      "date": "Nov 19",
+      "balance": 9400,
+      "lower": 9400,
+      "upper": 9400
+    },
+    {
+      "day": 5,
+      "date": "Nov 20",
+      "balance": 9400,
+      "lower": 9400,
+      "upper": 9400
+    },
+    {
+      "day": 6,
+      "date": "Nov 21",
+      "balance": 9400,
+      "lower": 9400,
+      "upper": 9400
+    },
+    {
+      "day": 7,
+      "date": "Nov 22",
+      "balance": 14300,
+      "lower": 13911,
+      "upper": 14575
+    },
+    {
+      "day": 8,
+      "date": "Nov 23",
+      "balance": 14300,
+      "lower": 13911,
+      "upper": 14575
+    },
+    {
+      "day": 9,
+      "date": "Nov 24",
+      "balance": 14300,
+      "lower": 13911,
+      "upper": 14575
+    },
+    {
+      "day": 10,
+      "date": "Nov 25",
+      "balance": 11100,
+      "lower": 10711,
+      "upper": 11375
+    },
+    {
+      "day": 11,
+      "date": "Nov 26",
+      "balance": 11100,
+      "lower": 10711,
+      "upper": 11375
+    },
+    {
+      "day": 12,
+      "date": "Nov 27",
+      "balance": 11100,
+      "lower": 10711,
+      "upper": 11375
+    },
+    {
+      "day": 13,
+      "date": "Nov 28",
+      "balance": 9300,
+      "lower": 8911,
+      "upper": 9575
+    },
+    {
+      "day": 14,
+      "date": "Nov 29",
+      "balance": 14191,
+      "lower": 13694,
+      "upper": 14785
+    },
+    {
+      "day": 15,
+      "date": "Nov 30",
+      "balance": 14191,
+      "lower": 13694,
+      "upper": 14785
+    },
+    {
+      "day": 16,
+      "date": "Dec 1",
+      "balance": 14191,
+      "lower": 13694,
+      "upper": 14785
+    },
+    {
+      "day": 17,
+      "date": "Dec 2",
+      "balance": 9591,
+      "lower": 9094,
+      "upper": 10185
+    },
+    {
+      "day": 18,
+      "date": "Dec 3",
+      "balance": 9591,
+      "lower": 9094,
+      "upper": 10185
+    },
+    {
+      "day": 19,
+      "date": "Dec 4",
+      "balance": 9591,
+      "lower": 9094,
+      "upper": 10185
+    },
+    {
+      "day": 20,
+      "date": "Dec 5",
+      "balance": 9591,
+      "lower": 9094,
+      "upper": 10185
+    },
+    {
+      "day": 21,
+      "date": "Dec 6",
+      "balance": 14669,
+      "lower": 14066,
+      "upper": 15401
+    },
+    {
+      "day": 22,
+      "date": "Dec 7",
+      "balance": 14669,
+      "lower": 14066,
+      "upper": 15401
+    },
+    {
+      "day": 23,
+      "date": "Dec 8",
+      "balance": 14669,
+      "lower": 14066,
+      "upper": 15401
+    },
+    {
+      "day": 24,
+      "date": "Dec 9",
+      "balance": 11469,
+      "lower": 10866,
+      "upper": 12201
+    },
+    {
+      "day": 25,
+      "date": "Dec 10",
+      "balance": 11469,
+      "lower": 10866,
+      "upper": 12201
+    },
+    {
+      "day": 26,
+      "date": "Dec 11",
+      "balance": 11469,
+      "lower": 10866,
+      "upper": 12201
+    },
+    {
+      "day": 27,
+      "date": "Dec 12",
+      "balance": 11469,
+      "lower": 10866,
+      "upper": 12201
+    },
+    {
+      "day": 28,
+      "date": "Dec 13",
+      "balance": 16723,
+      "lower": 15991,
+      "upper": 17529
+    },
+    {
+      "day": 29,
+      "date": "Dec 14",
+      "balance": 14323,
+      "lower": 13591,
+      "upper": 15129
+    },
+    {
+      "day": 30,
+      "date": "Dec 15",
+      "balance": 11123,
+      "lower": 10391,
+      "upper": 11929
+    },
+    {
+      "day": 31,
+      "date": "Dec 16",
+      "balance": -6877,
+      "lower": -7609,
+      "upper": -6071
+    },
+    {
+      "day": 32,
+      "date": "Dec 17",
+      "balance": -6877,
+      "lower": -7609,
+      "upper": -6071
+    },
+    {
+      "day": 33,
+      "date": "Dec 18",
+      "balance": -8677,
+      "lower": -9409,
+      "upper": -7871
+    },
+    {
+      "day": 34,
+      "date": "Dec 19",
+      "balance": -8677,
+      "lower": -9409,
+      "upper": -7871
+    },
+    {
+      "day": 35,
+      "date": "Dec 20",
+      "balance": -3346,
+      "lower": -4096,
+      "upper": -2439
+    },
+    {
+      "day": 36,
+      "date": "Dec 21",
+      "balance": -3346,
+      "lower": -4096,
+      "upper": -2439
+    },
+    {
+      "day": 37,
+      "date": "Dec 22",
+      "balance": -3346,
+      "lower": -4096,
+      "upper": -2439
+    },
+    {
+      "day": 38,
+      "date": "Dec 23",
+      "balance": -3346,
+      "lower": -4096,
+      "upper": -2439
+    },
+    {
+      "day": 39,
+      "date": "Dec 24",
+      "balance": -3346,
+      "lower": -4096,
+      "upper": -2439
+    },
+    {
+      "day": 40,
+      "date": "Dec 25",
+      "balance": -3346,
+      "lower": -4096,
+      "upper": -2439
+    },
+    {
+      "day": 41,
+      "date": "Dec 26",
+      "balance": -3346,
+      "lower": -4096,
+      "upper": -2439
+    },
+    {
+      "day": 42,
+      "date": "Dec 27",
+      "balance": 2112,
+      "lower": 1284,
+      "upper": 3062
+    },
+    {
+      "day": 43,
+      "date": "Dec 28",
+      "balance": 2112,
+      "lower": 1284,
+      "upper": 3062
+    },
+    {
+      "day": 44,
+      "date": "Dec 29",
+      "balance": 2112,
+      "lower": 1284,
+      "upper": 3062
+    },
+    {
+      "day": 45,
+      "date": "Dec 30",
+      "balance": -1088,
+      "lower": -1916,
+      "upper": -138
+    },
+    {
+      "day": 46,
+      "date": "Dec 31",
+      "balance": -1088,
+      "lower": -1916,
+      "upper": -138
+    },
+    {
+      "day": 47,
+      "date": "Jan 1",
+      "balance": -1088,
+      "lower": -1916,
+      "upper": -138
+    },
+    {
+      "day": 48,
+      "date": "Jan 2",
+      "balance": -1088,
+      "lower": -1916,
+      "upper": -138
+    },
+    {
+      "day": 49,
+      "date": "Jan 3",
+      "balance": 3696,
+      "lower": 2844,
+      "upper": 4745
+    },
+    {
+      "day": 50,
+      "date": "Jan 4",
+      "balance": 3696,
+      "lower": 2844,
+      "upper": 4745
+    },
+    {
+      "day": 51,
+      "date": "Jan 5",
+      "balance": 3696,
+      "lower": 2844,
+      "upper": 4745
+    },
+    {
+      "day": 52,
+      "date": "Jan 6",
+      "balance": 3696,
+      "lower": 2844,
+      "upper": 4745
+    },
+    {
+      "day": 53,
+      "date": "Jan 7",
+      "balance": 3696,
+      "lower": 2844,
+      "upper": 4745
+    },
+    {
+      "day": 54,
+      "date": "Jan 8",
+      "balance": 3696,
+      "lower": 2844,
+      "upper": 4745
+    },
+    {
+      "day": 55,
+      "date": "Jan 9",
+      "balance": 3696,
+      "lower": 2844,
+      "upper": 4745
+    },
+    {
+      "day": 56,
+      "date": "Jan 10",
+      "balance": 8517,
+      "lower": 7556,
+      "upper": 9645
+    },
+    {
+      "day": 57,
+      "date": "Jan 11",
+      "balance": 5317,
+      "lower": 4356,
+      "upper": 6445
+    },
+    {
+      "day": 58,
+      "date": "Jan 12",
+      "balance": 5317,
+      "lower": 4356,
+      "upper": 6445
+    },
+    {
+      "day": 59,
+      "date": "Jan 13",
+      "balance": 5317,
+      "lower": 4356,
+      "upper": 6445
+    },
+    {
+      "day": 60,
+      "date": "Jan 14",
+      "balance": 5317,
+      "lower": 4356,
+      "upper": 6445
+    },
+    {
+      "day": 61,
+      "date": "Jan 15",
+      "balance": 5317,
+      "lower": 4356,
+      "upper": 6445
+    },
+    {
+      "day": 62,
+      "date": "Jan 16",
+      "balance": 5317,
+      "lower": 4356,
+      "upper": 6445
+    },
+    {
+      "day": 63,
+      "date": "Jan 17",
+      "balance": 10041,
+      "lower": 8970,
+      "upper": 11114
+    },
+    {
+      "day": 64,
+      "date": "Jan 18",
+      "balance": 10041,
+      "lower": 8970,
+      "upper": 11114
+    },
+    {
+      "day": 65,
+      "date": "Jan 19",
+      "balance": 5541,
+      "lower": 4470,
+      "upper": 6614
+    },
+    {
+      "day": 66,
+      "date": "Jan 20",
+      "balance": 5541,
+      "lower": 4470,
+      "upper": 6614
+    },
+    {
+      "day": 67,
+      "date": "Jan 21",
+      "balance": 5541,
+      "lower": 4470,
+      "upper": 6614
+    },
+    {
+      "day": 68,
+      "date": "Jan 22",
+      "balance": 5541,
+      "lower": 4470,
+      "upper": 6614
+    },
+    {
+      "day": 69,
+      "date": "Jan 23",
+      "balance": 5541,
+      "lower": 4470,
+      "upper": 6614
+    },
+    {
+      "day": 70,
+      "date": "Jan 24",
+      "balance": 10245,
+      "lower": 9123,
+      "upper": 11386
+    },
+    {
+      "day": 71,
+      "date": "Jan 25",
+      "balance": 7045,
+      "lower": 5923,
+      "upper": 8186
+    },
+    {
+      "day": 72,
+      "date": "Jan 26",
+      "balance": 7045,
+      "lower": 5923,
+      "upper": 8186
+    },
+    {
+      "day": 73,
+      "date": "Jan 27",
+      "balance": 7045,
+      "lower": 5923,
+      "upper": 8186
+    },
+    {
+      "day": 74,
+      "date": "Jan 28",
+      "balance": 7045,
+      "lower": 5923,
+      "upper": 8186
+    },
+    {
+      "day": 75,
+      "date": "Jan 29",
+      "balance": 7045,
+      "lower": 5923,
+      "upper": 8186
+    },
+    {
+      "day": 76,
+      "date": "Jan 30",
+      "balance": 7045,
+      "lower": 5923,
+      "upper": 8186
+    },
+    {
+      "day": 77,
+      "date": "Jan 31",
+      "balance": 11793,
+      "lower": 10605,
+      "upper": 13028
+    },
+    {
+      "day": 78,
+      "date": "Feb 1",
+      "balance": 11793,
+      "lower": 10605,
+      "upper": 13028
+    },
+    {
+      "day": 79,
+      "date": "Feb 2",
+      "balance": 11793,
+      "lower": 10605,
+      "upper": 13028
+    },
+    {
+      "day": 80,
+      "date": "Feb 3",
+      "balance": 11793,
+      "lower": 10605,
+      "upper": 13028
+    },
+    {
+      "day": 81,
+      "date": "Feb 4",
+      "balance": 11793,
+      "lower": 10605,
+      "upper": 13028
+    },
+    {
+      "day": 82,
+      "date": "Feb 5",
+      "balance": 11793,
+      "lower": 10605,
+      "upper": 13028
+    },
+    {
+      "day": 83,
+      "date": "Feb 6",
+      "balance": 11793,
+      "lower": 10605,
+      "upper": 13028
+    },
+    {
+      "day": 84,
+      "date": "Feb 7",
+      "balance": 16570,
+      "lower": 15307,
+      "upper": 17814
+    },
+    {
+      "day": 85,
+      "date": "Feb 8",
+      "balance": 13370,
+      "lower": 12107,
+      "upper": 14614
+    },
+    {
+      "day": 86,
+      "date": "Feb 9",
+      "balance": 13370,
+      "lower": 12107,
+      "upper": 14614
+    },
+    {
+      "day": 87,
+      "date": "Feb 10",
+      "balance": 13370,
+      "lower": 12107,
+      "upper": 14614
+    },
+    {
+      "day": 88,
+      "date": "Feb 11",
+      "balance": 13370,
+      "lower": 12107,
+      "upper": 14614
+    },
+    {
+      "day": 89,
+      "date": "Feb 12",
+      "balance": 13370,
+      "lower": 12107,
+      "upper": 14614
+    },
+    {
+      "day": 90,
+      "date": "Feb 13",
+      "balance": 18023,
+      "lower": 16727,
+      "upper": 19336
+    }
+  ],
+  "healthyPoints": [
+    {
+      "day": 1,
+      "date": "Nov 16",
+      "balance": 14200,
+      "lower": 14200,
+      "upper": 14200
+    },
+    {
+      "day": 2,
+      "date": "Nov 17",
+      "balance": 14200,
+      "lower": 14200,
+      "upper": 14200
+    },
+    {
+      "day": 3,
+      "date": "Nov 18",
+      "balance": 9400,
+      "lower": 9400,
+      "upper": 9400
+    },
+    {
+      "day": 4,
+      "date": "Nov 19",
+      "balance": 9400,
+      "lower": 9400,
+      "upper": 9400
+    },
+    {
+      "day": 5,
+      "date": "Nov 20",
+      "balance": 9400,
+      "lower": 9400,
+      "upper": 9400
+    },
+    {
+      "day": 6,
+      "date": "Nov 21",
+      "balance": 9400,
+      "lower": 9400,
+      "upper": 9400
+    },
+    {
+      "day": 7,
+      "date": "Nov 22",
+      "balance": 14300,
+      "lower": 13911,
+      "upper": 14549
+    },
+    {
+      "day": 8,
+      "date": "Nov 23",
+      "balance": 14300,
+      "lower": 13911,
+      "upper": 14549
+    },
+    {
+      "day": 9,
+      "date": "Nov 24",
+      "balance": 14300,
+      "lower": 13911,
+      "upper": 14549
+    },
+    {
+      "day": 10,
+      "date": "Nov 25",
+      "balance": 11100,
+      "lower": 10711,
+      "upper": 11349
+    },
+    {
+      "day": 11,
+      "date": "Nov 26",
+      "balance": 11100,
+      "lower": 10711,
+      "upper": 11349
+    },
+    {
+      "day": 12,
+      "date": "Nov 27",
+      "balance": 11100,
+      "lower": 10711,
+      "upper": 11349
+    },
+    {
+      "day": 13,
+      "date": "Nov 28",
+      "balance": 9300,
+      "lower": 8911,
+      "upper": 9549
+    },
+    {
+      "day": 14,
+      "date": "Nov 29",
+      "balance": 14203,
+      "lower": 13711,
+      "upper": 14786
+    },
+    {
+      "day": 15,
+      "date": "Nov 30",
+      "balance": 14203,
+      "lower": 13711,
+      "upper": 14786
+    },
+    {
+      "day": 16,
+      "date": "Dec 1",
+      "balance": 14203,
+      "lower": 13711,
+      "upper": 14786
+    },
+    {
+      "day": 17,
+      "date": "Dec 2",
+      "balance": 9603,
+      "lower": 9111,
+      "upper": 10186
+    },
+    {
+      "day": 18,
+      "date": "Dec 3",
+      "balance": 9603,
+      "lower": 9111,
+      "upper": 10186
+    },
+    {
+      "day": 19,
+      "date": "Dec 4",
+      "balance": 9603,
+      "lower": 9111,
+      "upper": 10186
+    },
+    {
+      "day": 20,
+      "date": "Dec 5",
+      "balance": 9603,
+      "lower": 9111,
+      "upper": 10186
+    },
+    {
+      "day": 21,
+      "date": "Dec 6",
+      "balance": 14716,
+      "lower": 14097,
+      "upper": 15469
+    },
+    {
+      "day": 22,
+      "date": "Dec 7",
+      "balance": 14716,
+      "lower": 14097,
+      "upper": 15469
+    },
+    {
+      "day": 23,
+      "date": "Dec 8",
+      "balance": 14716,
+      "lower": 14097,
+      "upper": 15469
+    },
+    {
+      "day": 24,
+      "date": "Dec 9",
+      "balance": 11516,
+      "lower": 10897,
+      "upper": 12269
+    },
+    {
+      "day": 25,
+      "date": "Dec 10",
+      "balance": 11516,
+      "lower": 10897,
+      "upper": 12269
+    },
+    {
+      "day": 26,
+      "date": "Dec 11",
+      "balance": 11516,
+      "lower": 10897,
+      "upper": 12269
+    },
+    {
+      "day": 27,
+      "date": "Dec 12",
+      "balance": 11516,
+      "lower": 10897,
+      "upper": 12269
+    },
+    {
+      "day": 28,
+      "date": "Dec 13",
+      "balance": 16740,
+      "lower": 16037,
+      "upper": 17577
+    },
+    {
+      "day": 29,
+      "date": "Dec 14",
+      "balance": 14340,
+      "lower": 13637,
+      "upper": 15177
+    },
+    {
+      "day": 30,
+      "date": "Dec 15",
+      "balance": 11140,
+      "lower": 10437,
+      "upper": 11977
+    },
+    {
+      "day": 31,
+      "date": "Dec 16",
+      "balance": 11140,
+      "lower": 10437,
+      "upper": 11977
+    },
+    {
+      "day": 32,
+      "date": "Dec 17",
+      "balance": 11140,
+      "lower": 10437,
+      "upper": 11977
+    },
+    {
+      "day": 33,
+      "date": "Dec 18",
+      "balance": 9340,
+      "lower": 8637,
+      "upper": 10177
+    },
+    {
+      "day": 34,
+      "date": "Dec 19",
+      "balance": 9340,
+      "lower": 8637,
+      "upper": 10177
+    },
+    {
+      "day": 35,
+      "date": "Dec 20",
+      "balance": 14691,
+      "lower": 13896,
+      "upper": 15660
+    },
+    {
+      "day": 36,
+      "date": "Dec 21",
+      "balance": 14691,
+      "lower": 13896,
+      "upper": 15660
+    },
+    {
+      "day": 37,
+      "date": "Dec 22",
+      "balance": 14691,
+      "lower": 13896,
+      "upper": 15660
+    },
+    {
+      "day": 38,
+      "date": "Dec 23",
+      "balance": 14691,
+      "lower": 13896,
+      "upper": 15660
+    },
+    {
+      "day": 39,
+      "date": "Dec 24",
+      "balance": 14691,
+      "lower": 13896,
+      "upper": 15660
+    },
+    {
+      "day": 40,
+      "date": "Dec 25",
+      "balance": 14691,
+      "lower": 13896,
+      "upper": 15660
+    },
+    {
+      "day": 41,
+      "date": "Dec 26",
+      "balance": 14691,
+      "lower": 13896,
+      "upper": 15660
+    },
+    {
+      "day": 42,
+      "date": "Dec 27",
+      "balance": 20117,
+      "lower": 19272,
+      "upper": 21188
+    },
+    {
+      "day": 43,
+      "date": "Dec 28",
+      "balance": 20117,
+      "lower": 19272,
+      "upper": 21188
+    },
+    {
+      "day": 44,
+      "date": "Dec 29",
+      "balance": 20117,
+      "lower": 19272,
+      "upper": 21188
+    },
+    {
+      "day": 45,
+      "date": "Dec 30",
+      "balance": 16917,
+      "lower": 16072,
+      "upper": 17988
+    },
+    {
+      "day": 46,
+      "date": "Dec 31",
+      "balance": 16917,
+      "lower": 16072,
+      "upper": 17988
+    },
+    {
+      "day": 47,
+      "date": "Jan 1",
+      "balance": 16917,
+      "lower": 16072,
+      "upper": 17988
+    },
+    {
+      "day": 48,
+      "date": "Jan 2",
+      "balance": 16917,
+      "lower": 16072,
+      "upper": 17988
+    },
+    {
+      "day": 49,
+      "date": "Jan 3",
+      "balance": 21760,
+      "lower": 20832,
+      "upper": 22835
+    },
+    {
+      "day": 50,
+      "date": "Jan 4",
+      "balance": 21760,
+      "lower": 20832,
+      "upper": 22835
+    },
+    {
+      "day": 51,
+      "date": "Jan 5",
+      "balance": 21760,
+      "lower": 20832,
+      "upper": 22835
+    },
+    {
+      "day": 52,
+      "date": "Jan 6",
+      "balance": 21760,
+      "lower": 20832,
+      "upper": 22835
+    },
+    {
+      "day": 53,
+      "date": "Jan 7",
+      "balance": 21760,
+      "lower": 20832,
+      "upper": 22835
+    },
+    {
+      "day": 54,
+      "date": "Jan 8",
+      "balance": 21760,
+      "lower": 20832,
+      "upper": 22835
+    },
+    {
+      "day": 55,
+      "date": "Jan 9",
+      "balance": 21760,
+      "lower": 20832,
+      "upper": 22835
+    },
+    {
+      "day": 56,
+      "date": "Jan 10",
+      "balance": 26587,
+      "lower": 25497,
+      "upper": 27751
+    },
+    {
+      "day": 57,
+      "date": "Jan 11",
+      "balance": 23387,
+      "lower": 22297,
+      "upper": 24551
+    },
+    {
+      "day": 58,
+      "date": "Jan 12",
+      "balance": 23387,
+      "lower": 22297,
+      "upper": 24551
+    },
+    {
+      "day": 59,
+      "date": "Jan 13",
+      "balance": 23387,
+      "lower": 22297,
+      "upper": 24551
+    },
+    {
+      "day": 60,
+      "date": "Jan 14",
+      "balance": 23387,
+      "lower": 22297,
+      "upper": 24551
+    },
+    {
+      "day": 61,
+      "date": "Jan 15",
+      "balance": 23387,
+      "lower": 22297,
+      "upper": 24551
+    },
+    {
+      "day": 62,
+      "date": "Jan 16",
+      "balance": 23387,
+      "lower": 22297,
+      "upper": 24551
+    },
+    {
+      "day": 63,
+      "date": "Jan 17",
+      "balance": 28071,
+      "lower": 26939,
+      "upper": 29319
+    },
+    {
+      "day": 64,
+      "date": "Jan 18",
+      "balance": 28071,
+      "lower": 26939,
+      "upper": 29319
+    },
+    {
+      "day": 65,
+      "date": "Jan 19",
+      "balance": 23571,
+      "lower": 22439,
+      "upper": 24819
+    },
+    {
+      "day": 66,
+      "date": "Jan 20",
+      "balance": 23571,
+      "lower": 22439,
+      "upper": 24819
+    },
+    {
+      "day": 67,
+      "date": "Jan 21",
+      "balance": 23571,
+      "lower": 22439,
+      "upper": 24819
+    },
+    {
+      "day": 68,
+      "date": "Jan 22",
+      "balance": 23571,
+      "lower": 22439,
+      "upper": 24819
+    },
+    {
+      "day": 69,
+      "date": "Jan 23",
+      "balance": 23571,
+      "lower": 22439,
+      "upper": 24819
+    },
+    {
+      "day": 70,
+      "date": "Jan 24",
+      "balance": 28297,
+      "lower": 27100,
+      "upper": 29590
+    },
+    {
+      "day": 71,
+      "date": "Jan 25",
+      "balance": 25097,
+      "lower": 23900,
+      "upper": 26390
+    },
+    {
+      "day": 72,
+      "date": "Jan 26",
+      "balance": 25097,
+      "lower": 23900,
+      "upper": 26390
+    },
+    {
+      "day": 73,
+      "date": "Jan 27",
+      "balance": 25097,
+      "lower": 23900,
+      "upper": 26390
+    },
+    {
+      "day": 74,
+      "date": "Jan 28",
+      "balance": 25097,
+      "lower": 23900,
+      "upper": 26390
+    },
+    {
+      "day": 75,
+      "date": "Jan 29",
+      "balance": 25097,
+      "lower": 23900,
+      "upper": 26390
+    },
+    {
+      "day": 76,
+      "date": "Jan 30",
+      "balance": 25097,
+      "lower": 23900,
+      "upper": 26390
+    },
+    {
+      "day": 77,
+      "date": "Jan 31",
+      "balance": 29869,
+      "lower": 28600,
+      "upper": 31201
+    },
+    {
+      "day": 78,
+      "date": "Feb 1",
+      "balance": 29869,
+      "lower": 28600,
+      "upper": 31201
+    },
+    {
+      "day": 79,
+      "date": "Feb 2",
+      "balance": 29869,
+      "lower": 28600,
+      "upper": 31201
+    },
+    {
+      "day": 80,
+      "date": "Feb 3",
+      "balance": 29869,
+      "lower": 28600,
+      "upper": 31201
+    },
+    {
+      "day": 81,
+      "date": "Feb 4",
+      "balance": 29869,
+      "lower": 28600,
+      "upper": 31201
+    },
+    {
+      "day": 82,
+      "date": "Feb 5",
+      "balance": 29869,
+      "lower": 28600,
+      "upper": 31201
+    },
+    {
+      "day": 83,
+      "date": "Feb 6",
+      "balance": 29869,
+      "lower": 28600,
+      "upper": 31201
+    },
+    {
+      "day": 84,
+      "date": "Feb 7",
+      "balance": 34667,
+      "lower": 33280,
+      "upper": 35997
+    },
+    {
+      "day": 85,
+      "date": "Feb 8",
+      "balance": 31467,
+      "lower": 30080,
+      "upper": 32797
+    },
+    {
+      "day": 86,
+      "date": "Feb 9",
+      "balance": 31467,
+      "lower": 30080,
+      "upper": 32797
+    },
+    {
+      "day": 87,
+      "date": "Feb 10",
+      "balance": 31467,
+      "lower": 30080,
+      "upper": 32797
+    },
+    {
+      "day": 88,
+      "date": "Feb 11",
+      "balance": 31467,
+      "lower": 30080,
+      "upper": 32797
+    },
+    {
+      "day": 89,
+      "date": "Feb 12",
+      "balance": 31467,
+      "lower": 30080,
+      "upper": 32797
+    },
+    {
+      "day": 90,
+      "date": "Feb 13",
+      "balance": 36079,
+      "lower": 34756,
+      "upper": 37562
+    }
+  ]
+}

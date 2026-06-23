@@ -5,6 +5,7 @@ import { ForecastPoint } from "@/lib/mockData";
 interface CashFlowChartProps {
   data: ForecastPoint[];
   financedData?: ForecastPoint[];
+  defaultFinanced?: boolean;
   width?: number;
   height?: number;
 }
@@ -12,9 +13,9 @@ interface CashFlowChartProps {
 const fmt = (n: number) =>
   new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
 
-export default function CashFlowChart({ data, financedData, width = 900, height = 290 }: CashFlowChartProps) {
+export default function CashFlowChart({ data, financedData, defaultFinanced = false, width = 900, height = 290 }: CashFlowChartProps) {
   const [hover, setHover] = useState<number | null>(null);
-  const [showFinanced, setShowFinanced] = useState(false);
+  const [showFinanced, setShowFinanced] = useState(defaultFinanced);
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   const padL = 52, padR = 16, padT = 18, padB = 28;
