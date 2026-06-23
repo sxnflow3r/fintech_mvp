@@ -1,24 +1,22 @@
 """
-Treasure — 90-day cash-flow forecasting prototype.
+Treasure cash flow forecast.
 
-This is the real, code-backed version of Treasure's core conceptual innovation: a
-gradient-boosted forecast of an SME's cash position with confidence intervals.
+This builds the 90 day forecast that the app shows on the dashboard.
 
-Approach (a realistic treasury hybrid):
-  1. KNOWN scheduled items (payroll, supplier invoices, utilities, the one-off oven)
-     come straight from the accounting system — they are deterministic, not predicted.
-  2. VARIABLE weekly revenue is the uncertain part. We model it with GRADIENT-BOOSTED
-     QUANTILE REGRESSION (scikit-learn, loss="quantile" at alpha=0.1/0.5/0.9). This is
-     the direct answer to "how do you get confidence intervals from gradient boosting?":
-     you train separate quantile models.
-  3. The cumulative-balance band is produced by Monte-Carlo: we sample future weekly
-     revenue from the model's predicted distribution and accumulate. Because uncertainty
-     compounds, the band fans out with the horizon — exactly as a real forecast should.
+The idea is that a small business has two kinds of cash flow:
+  1. Stuff we already know from the accounting system (wages, supplier bills, the oven
+     repair). We just put these in directly, no guessing needed.
+  2. Daily sales, which we do not know yet. We predict these with a gradient boosting
+     model. We actually train three of them, for the low, middle and high case, which is
+     how we get a confidence band out of gradient boosting.
 
-Output: src/data/forecast.json, consumed directly by the Next.js UI. The app therefore
-renders REAL model output, not a hand-written series.
+Then we run a quick Monte Carlo (lots of random sample paths) to get the band around the
+running balance. The band gets wider further into the future, which makes sense because we
+are less sure the further ahead we look.
 
-Run:  py forecast/forecast_model.py
+It saves everything to src/data/forecast.json, which the website reads.
+
+To run it:  py forecast/forecast_model.py
 """
 
 import json
@@ -30,27 +28,24 @@ from sklearn.ensemble import GradientBoostingRegressor
 
 RNG = np.random.default_rng(42)
 
-START = date(2025, 11, 15)        # "today" — forecast covers the next 90 days
-START_BALANCE = 14_200            # current balance from the accounting feed (EUR)
+START = date(2025, 11, 15)        # the day we forecast from
+START_BALANCE = 14_200            # money in the bank right now, in euros
 HORIZON = 90
-REV_DAYS = list(range(7, 91, 7))  # weekly sales land on day 7, 14, ... 84, plus 90
+REV_DAYS = list(range(7, 91, 7))  # sales come in once a week (day 7, 14, ...)
 REV_DAYS.append(90)
 
-# Known scheduled items from the accounting system (day-in-horizon -> EUR delta).
-# These are facts, not forecasts: payroll, supplier invoices, utilities, and the
-# one-off emergency oven replacement that creates the liquidity gap.
+# Things we already know are coming, from the accounting system (day -> euros).
+# Wages, supplier bills, utilities, and the big one-off oven repair.
 SCHEDULED = {
     3: -4800, 10: -3200, 13: -1800, 17: -4600, 24: -3200, 29: -2400, 30: -3200,
-    31: -18000,  # emergency oven replacement -> triggers the gap
+    31: -18000,  # the oven breaks, this is what causes the cash gap
     33: -1800, 45: -3200, 57: -3200, 65: -4500, 71: -3200, 85: -3200,
 }
 OVEN_DAY = 31
 
 
-# --------------------------------------------------------------------------- #
-# 1. Feature engineering + the "true" seasonal revenue signal (for synthetic
-#    history). A bakery's weekly revenue rises into the Christmas period.
-# --------------------------------------------------------------------------- #
+# Small helpers. features() turns a date into a few numbers the model can read,
+# and true_weekly_revenue() is a rough sales curve we use to make fake history.
 def features(d: date) -> list[float]:
     doy = d.timetuple().tm_yday
     trend = (d.toordinal() - START.toordinal()) / 30.0
@@ -58,16 +53,13 @@ def features(d: date) -> list[float]:
 
 
 def true_weekly_revenue(d: date) -> float:
-    base = 4700 + 4.0 * (d.toordinal() - START.toordinal()) / 7.0  # mild upward trend
-    dd = abs((d - date(d.year, 12, 22)).days)                       # days from Xmas peak
-    christmas = 1500 * np.exp(-((dd / 12.0) ** 2))                  # seasonal uplift
+    base = 4700 + 4.0 * (d.toordinal() - START.toordinal()) / 7.0  # sales rise a bit over time
+    dd = abs((d - date(d.year, 12, 22)).days)                       # how close to christmas
+    christmas = 1500 * np.exp(-((dd / 12.0) ** 2))                  # busier around christmas
     return base + christmas
 
 
-# --------------------------------------------------------------------------- #
-# 2. Build synthetic weekly-revenue history (one year of past weeks) and fit
-#    gradient-boosted quantile models for p10 / p50 / p90.
-# --------------------------------------------------------------------------- #
+# Make a year of fake weekly sales history and train the three models on it.
 NOISE_SIGMA = 600
 hist_dates = [START - timedelta(days=7 * k) for k in range(1, 53)]  # 52 past weeks
 X_hist = np.array([features(d) for d in hist_dates])
@@ -82,29 +74,27 @@ for alpha in (0.1, 0.5, 0.9):
     gbr.fit(X_hist, y_hist)
     models[alpha] = gbr
 
-# Training residuals (around the median model) drive the Monte-Carlo sampling.
+# How far off the middle model is on the training data. We reuse these errors below.
 resid = y_hist - models[0.5].predict(X_hist)
 
 
-# --------------------------------------------------------------------------- #
-# 3. Predict the future weekly revenue and Monte-Carlo the cumulative balance.
-# --------------------------------------------------------------------------- #
+# Predict next quarter's sales, then simulate the bank balance day by day.
 future_dates = {d: START + timedelta(days=d) for d in REV_DAYS}
 X_future = np.array([features(future_dates[d]) for d in REV_DAYS])
 rev_p50 = dict(zip(REV_DAYS, models[0.5].predict(X_future)))
 
 
 def simulate(include_oven: bool, n_paths: int = 800) -> list[dict]:
-    """Monte-Carlo daily balance paths -> per-day p10/p50/p90."""
+    """Run lots of random paths and read off the low, middle and high balance per day."""
     paths = np.zeros((n_paths, HORIZON + 1))
     for s in range(n_paths):
         bal = float(START_BALANCE)
         for day in range(1, HORIZON + 1):
             flow = SCHEDULED.get(day, 0)
             if include_oven is False and day == OVEN_DAY:
-                flow -= SCHEDULED[OVEN_DAY]  # remove the oven for the "healthy" scenario
+                flow -= SCHEDULED[OVEN_DAY]  # healthy version: take the oven back out
             if day in rev_p50:
-                # sample this week's revenue: median prediction + bootstrapped residual
+                # this week's sales = the model's guess plus a random past error
                 flow += rev_p50[day] + RNG.choice(resid)
             bal += flow
             paths[s, day] = bal
