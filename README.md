@@ -25,7 +25,7 @@ The SME accepts the best offer with a single click. No additional paperwork. Fun
 
 | Screen | What it shows |
 |---|---|
-| **1. Connect** | Simulated PSD2 OAuth consent for ING Business + Exact Online |
+| **1. Connect** | Simulated connection to Exact Online |
 | **2. Dashboard** | Animated 90-day forecast chart, KPI cards, gap detection alert |
 | **3. Marketplace** | Three ranked lender offers with APR — one-click accept |
 
