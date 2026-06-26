@@ -1,4 +1,6 @@
 "use client";
+// Screen 2: the forecast dashboard. Shows the 90 day chart, the KPI cards, the
+// liquidity gap alert, and the gap month / healthy month toggle.
 import { AlertTriangle, TrendingUp, ArrowRight, Wallet, Calendar, Activity, Brain, ShieldCheck, CheckCircle2 } from "lucide-react";
 import {
   FORECAST_DATA, HEALTHY_DATA, FINANCED_DATA, SME_PROFILE, AVG_MONTHLY_REVENUE,

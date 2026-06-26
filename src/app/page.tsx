@@ -1,4 +1,6 @@
 "use client";
+// Top level page. Keeps track of which of the three screens is showing and which
+// offer the owner accepted, and swaps between the screens.
 import { useState } from "react";
 import ConnectScreen from "@/components/ConnectScreen";
 import DashboardScreen from "@/components/DashboardScreen";

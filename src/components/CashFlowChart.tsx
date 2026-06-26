@@ -1,4 +1,6 @@
 "use client";
+// The cash flow chart. Drawn by hand as an SVG so we do not need a chart library.
+// Draws the forecast line, the confidence band, the gap shading, and the financed line.
 import { useState, useMemo, useRef } from "react";
 import { ForecastPoint } from "@/lib/mockData";
 

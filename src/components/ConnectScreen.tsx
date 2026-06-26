@@ -1,4 +1,6 @@
 "use client";
+// Screen 1: the owner connects their accounting software. The connection is just
+// simulated here (a short loading state, then "Connected").
 import { useState } from "react";
 import { CheckCircle2, Loader2, BookOpen, ArrowRight, Shield, Sparkles } from "lucide-react";
 

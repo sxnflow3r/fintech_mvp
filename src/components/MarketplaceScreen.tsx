@@ -1,4 +1,6 @@
 "use client";
+// Screen 3: the lender marketplace. Shows the ranked offers for the amount the owner
+// asks for, and handles accepting one (then a confirmation screen).
 import { useMemo, useState } from "react";
 import { CheckCircle2, Zap, ArrowLeft, Star, Clock, TrendingDown } from "lucide-react";
 import { rankOffers, GAP_DAY, FINANCE_AMOUNT_OPTIONS, DEFAULT_FINANCE_AMOUNT, type LenderOffer } from "@/lib/mockData";
